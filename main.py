@@ -3,6 +3,9 @@ import tkinter
 import sqlite3 as sql
 import csv
 
+#creates variables
+widgets = [0,0]
+
 #windows
 
 tk = tkinter.Tk()
@@ -25,7 +28,7 @@ sidebar.pack(side="right", fill=tkinter.Y)
 #
 # Creates updating variables
 def updates():
-    
+
     tk.after(1,updates)
 tk.after(101, updates)
 
@@ -33,6 +36,17 @@ tk.after(101, updates)
 connection = sql.connect("clients.db")
 cursor = connection.cursor()
 cursor.execute("CREATE TABLE IF NOT EXISTS clients(firstName TEXT, lastName TEXT, email TEXT, Topics TEXT)")
+
+#Creates window for adding to database
+new_frame = tkinter.Frame(tk, bg="red", width=100, height=100)
+
+def NewFrameSideBar():
+    import_frame.pack_forget()
+    new_frame.pack(fill=tkinter.BOTH,expand=1)
+
+new_frame_sidebar = tkinter.Button(sidebar,text="Add", width=33, height=5,command=NewFrameSideBar)
+new_frame_sidebar.pack(anchor=tkinter.N)
+
 
 #script for importing csv files
 def importCSV():
@@ -42,13 +56,14 @@ def importCSV():
     cursor.executemany("INSERT INTO clients (firstName, lastName, email, Topics) VALUES (?, ?, ?, ?);", to_db)
 
 #Creates imports window
-importFrame = tkinter.Frame(tk, bg="white", width=100, height=100)
+import_frame = tkinter.Frame(tk, bg="white", width=100, height=100)
 
 def ImportFrameSidebar():
-    importFrame.pack(fill=tkinter.BOTH, expand=1)
+    new_frame.pack_forget()
+    import_frame.pack(fill=tkinter.BOTH, expand=1)
 
 importButtonSidebar = tkinter.Button(sidebar, text="Import", width=33,height=5, command=ImportFrameSidebar)
-importButtonSidebar.place(x=0,y=0)
+importButtonSidebar.pack(anchor=tkinter.N)
 
 
 
