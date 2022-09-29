@@ -3,9 +3,6 @@ import tkinter
 import sqlite3 as sql
 import csv
 
-#creates variables
-widgets = [0,0]
-
 #windows
 
 tk = tkinter.Tk()
